@@ -1,0 +1,93 @@
+
+--Создание таблиц
+   CREATE TABLE Authors (
+     Id INT IDENTITY(1,1) NOT NULL CONSTRAINT Author_Id PRIMARY KEY,
+     NameAuthor Nvarchar(50) NOT NULL,
+     YearBirth  INT NOT NULL
+   );
+   CREATE TABLE Books (
+     Id    INT IDENTITY(1,1) NOT NULL CONSTRAINT Book_Id PRIMARY KEY,
+     NameBook Nvarchar(50) NOT NULL,
+     AuthorId  INT NOT NULL,
+     FOREIGN KEY (AuthorId) REFERENCES Authors(Id)
+   );
+   
+   --Добавление строк в таблицу
+   INSERT INTO Books(NameBook, AuthorId)
+     VALUES (N'Дневник Анны Франк', 1),
+        (N'Унесенные ветром', 2),
+	    (N'Великий Гэтсби', 3),
+	    (N'Убить пересмешника', 4),
+	    (N'Над пропастью во ржи', 5),
+	    (N'Думай и богатей', 6),
+	    (N'Код да Винчи', 7),
+	    (N'Властелин колец', 8),
+	    (N'Гарри Поттер', 9),
+	    (N'Любовь... другими словами', 4),
+	    (N'Инферно', 7),
+	    (N'Ангелы и демоны', 7),
+	    (N'Икабог', 9),
+	    (N'Рождественский поросенок', 9);
+
+ --Добавление строк в таблицу
+   INSERT INTO Authors(NameAuthor, YearBirth)
+	VALUES ('Анна Франк', 1929),
+	(N'Маргарет Митчелл', 1900),
+	(N'Фрэнсис Скотт Фицджеральд', 1896),
+	(N'Харпер Ли', 1926),
+	(N'Джером Сэлинджер', 1919),
+	(N'Наполеон Хилл', 1883),
+	(N'Дэн Браун', 1964),
+	(N'Джон Рональд Руэл Толкин', 1892),
+	(N'Джоан Роулинг', 1965);
+  
+   --Выборка данных
+select Authors.NameAuthor, Books.NameBook from Authors Inner join Books
+on Authors.Id = Books.AuthorId
+
+-- Добавление таблицы Series
+CREATE TABLE Series
+(
+    Id INT IDENTITY(1,1) NOT NULL CONSTRAINT Series_Id PRIMARY KEY,
+    Name Nvarchar(50) NOT NULL,
+    NumberOfBook INT NOT NULL,
+)
+ALTER TABLE Books 
+Add FOREIGN KEY (SeriesId) REFERENCES Series(Id)
+
+--Добавление строк в таблицу
+INSERT INTO Series(Name, NumberOfBook)
+	VALUES (N'Гарри Потер', 8),
+	(N'Сумерки', 6),
+INSERT INTO Authors(Name, YearBirth)
+	VALUES (N'Стефани Морган Майер', 1973)
+
+-- Добавление таблицы Stores
+CREATE TABLE Stores
+(
+    Id INT IDENTITY(1,1) NOT NULL CONSTRAINT Stores_Id PRIMARY KEY,
+    Name Nvarchar(50) NOT NULL,
+    Address Nvarchar(50) NOT NULL,
+)
+
+CREATE TABLE "BooksStores" (
+    "BooksId" INT NOT NULL,
+    "StoresId"    INT NOT NULL,
+    CONSTRAINT "FK_BookStore_Books_BookId" FOREIGN KEY("BookId") REFERENCES "Books"("Id"),
+    CONSTRAINT "FK_BookStore_Stores_StoreId" FOREIGN KEY("StoreId") REFERENCES "Stores"("Id"),
+    CONSTRAINT "PK_BookStore" PRIMARY KEY("BookId","StoreId")
+);
+
+--Добавление строк в таблицу
+INSERT INTO Stores(Name, Address)
+	VALUES (N'Поттер', N'г. Минск, ул.В.Пупкина, д.7'),
+	(N'Book', N'75 PARK PLACE 8TH FLOOR NEW YORK NY 10007 United States'),
+	(N'Книжные истории', N'г. Москва, ул.А.Пушкина, д.12347'),
+	(N'Світ книг', N'Украина, г.Киев, ул. Чигоринага д.409, '),
+	(N'Świat bajek', N'4-6 Chalubinskiejo Street, 00-928 Warsaw, Poland')
+
+INSERT INTO BooksStores(BookId, StoreId)
+	VALUES 
+	(27,6), (27,3), (27,4),
+	(29,3), (29,5), (29,6),
+	(28,6), (28,7), (28,5)	

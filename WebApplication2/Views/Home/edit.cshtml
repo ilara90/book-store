@@ -1,0 +1,36 @@
+﻿@using WebApplication2.Models.Views
+@model BookView
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Редактирование книги";
+}
+
+@using (Html.BeginForm("Edit", "Home", FormMethod.Post))
+{
+    <div>
+        <b>
+            @Html.LabelFor(x => x.Name) :
+        </b>
+        @Html.TextBoxFor(x => x.Name)
+    </div>
+    <br />
+    <div>
+        <b>
+            @Html.LabelFor(x => x.Author.Name)
+        </b>
+        @Html.DropDownListFor(x => x.AuthorId, Model.Authors)
+    </div>
+    <br />
+    <div>
+        <label>Название серии:</label>
+        @Html.DropDownListFor(x => x.SeriesId, Model.Series, "Нет Серии")
+    </div>
+    <br />
+    <div>
+        <input type="submit" value="Сохранить" />
+    </div>
+}

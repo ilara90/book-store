@@ -1,0 +1,64 @@
+﻿@using WebApplication2.Models
+@model IndexViewModel
+@addTagHelper *, WebApplication2
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h3>Распродажа книг</h3>
+
+    <form asp-controller="Home" asp-action="Index" method="get">
+        <p>
+            Название книги: <input type="text" name="searchName" value="@Model.SearchViewModel.SelectedSearch" />
+            <input type="submit" value="Поиск" />
+        </p>
+    </form>
+
+    <table rules="all">
+        <tr>
+            <td>
+                <p>Название книги</p>
+            </td>
+            <td>
+                <p>Автор</p>
+            </td>
+            <td></td>
+        </tr>
+        @foreach (Book b in @Model.Books)
+        {
+            <tr>
+                <td><p>@b.Name</p></td>
+                <td><p>@b.Author.Name</p></td>
+                <td>
+                    <a href="@Url.Action("delete","Home", new { id = @b.Id })">Удалить</a> |
+                    <a href="@Url.Action("details","Home", new { id = @b.Id })">Подробнее</a> |
+                    <a href="@Url.Action("edit","Home", new { id = @b.Id })">Редактировать</a>
+                </td>
+            </tr>
+        }
+    </table>
+
+    <page-link page-model="@Model.PageViewModel" page-action="Index" page-url-searchName="@Model.SearchViewModel.SelectedSearch"></page-link>
+    <p>Страница @Model.PageViewModel.PageNumber из @Model.PageViewModel.TotalPages</p>
+    @*<div>
+        @if (Model.PageViewModel.HasPreviousPage)
+        {
+            <button>
+                @Html.ActionLink("Назад", "Index", new {page = @Model.PageViewModel.PageNumber - 1})
+            </button>
+        }
+       
+       @if (Model.PageViewModel.HasNextPage)
+        {
+            <button>
+                @Html.ActionLink("Вперед", "Index", new {page = @Model.PageViewModel.PageNumber + 1})
+            </button>
+        }
+    </div>*@
+    <br />
+    <button>
+        @Html.ActionLink("Добавить книгу", "Create")
+    </button>
+</div>

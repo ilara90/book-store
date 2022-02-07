@@ -1,0 +1,29 @@
+﻿@using WebApplication2.Models.Views
+@model CreateViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Create", "Home", FormMethod.Post))
+{
+    <h3>Новая книга</h3>
+    <b>
+        <label>Название книги:</label>
+    </b>
+    <input type="text" name="name" />
+    <br />
+    <br />
+    <b>
+        <label>Имя автора:</label>
+    </b>
+    @Html.DropDownList("AuthorId", @Model.Authors, "Выберите автора")
+    <b>
+        <label>Название серии:</label>
+    </b>
+    @Html.DropDownList("SeriesId", @Model.Series, "Нет серии")
+    <br />
+    <br />
+    <input type="submit" value="Отправить" />
+
+}

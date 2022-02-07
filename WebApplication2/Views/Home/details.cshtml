@@ -1,0 +1,91 @@
+﻿@using WebApplication2.Models.Views
+@model DetailsViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Книга</h2>
+<div>
+    <p>
+        <b>
+            @Html.LabelFor(x => x.Book.Id)
+        </b>
+        <br />
+        @Html.DisplayFor(x => x.Book.Id)
+    </p>
+    <p>
+        <b>
+            @Html.LabelFor(x => x.Book.Name)
+        </b>
+        <br />
+        @Html.DisplayFor(x => x.Book.Name)
+    </p>
+    <p>
+        <b>
+            @Html.LabelFor(x => x.Book.Author.Name)
+        </b>
+        <br />
+        @Html.DisplayFor(x => x.Book.Author.Name)
+    </p>
+    <p>
+        <b>
+            @Html.LabelFor(x => x.Book.Author.YearBirth)
+        </b>
+        <br />
+        @Html.DisplayFor(x => x.Book.Author.YearBirth)
+    </p>
+</div>
+<div>
+    <button>
+        @Html.ActionLink("Назад", "Index")
+    </button>
+</div>
+
+<h2>Книги автора @Model.Book.Author.Name</h2>
+<table rules="all">
+    @foreach (var b in @Model.Books)
+    {
+        <tr>
+            <td><p>@b.Name</p></td>
+            <td><p>@b.Author.Name</p></td>
+            <td>
+                <a href="@Url.Action("details","Home", new { id = @b.Id })">Подробнее</a>
+            </td>
+        </tr>
+    }
+</table>
+@if (Model.Book.Series != null)
+{
+
+    <h2>Книги из серии @Model.Book.Series.Name</h2>
+    <table rules="all">
+        @foreach (var b in @Model.BooksSeries)
+        {
+            <tr>
+                <td><p>@b.Name</p></td>
+                <td><p>@b.Author.Name</p></td>
+                <td>
+                    <a href="@Url.Action("details","Home", new { id = @b.Id })">Подробнее</a>
+                </td>
+            </tr>
+        }
+    </table>
+    <b><p>В этой серии всего @Model.Book.Series.NumberOfBook книг</p></b>
+}
+
+<h2>Книгу "@Model.Book.Name" можно купить в магазине</h2>
+<table rules="all">
+    <tr>
+        <td><p>Название магазина</p></td>
+        <td><p>Адрес магазина</p></td>
+    </tr>
+    @foreach (var b in @Model.Book.Stores)
+    {
+        <tr>
+            <td><p>@b.Name</p></td>
+            <td><p>@b.Address</p></td>
+        </tr>
+    }
+</table>
+
